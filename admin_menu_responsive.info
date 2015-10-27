@@ -1,4 +1,4 @@
 name = Administration Menu Responsive
-description = "Modify Administration menu to work with mobile devices."
+description = "Make the administration menu mobile fiendly."
 package = Administration
 core = 7.x
