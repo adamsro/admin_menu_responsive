@@ -7,13 +7,13 @@
 /**
  * Implements hook_module_implements_alter().
  *
- * Run our hook_page_build and admin_menu_output_alter implementations last.
+ * Run admin_menu_output_alter implementation last.
  */
 function admin_menu_responsive_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'page_build' || $hook == 'admin_menu_output_alter') {
-    $group = $implementations['cpagardens_admin'];
-    unset($implementations['cpagardens_admin']);
-    $implementations['cpagardens_admin'] = $group;
+  if ($hook == 'admin_menu_output_alter') {
+    $group = $implementations['admin_menu_responsive'];
+    unset($implementations['admin_menu_responsive']);
+    $implementations['admin_menu_responsive'] = $group;
   }
 }
 
@@ -25,29 +25,23 @@ function admin_menu_responsive_module_implements_alter(&$implementations, $hook)
 function admin_menu_responsive_theme_registry_alter(&$registry) {
   if (isset($registry['admin_menu_links'])) {
     $registry['admin_menu_links']['function'] = 'admin_menu_responsive_admin_menu_links';
-    $registry['admin_menu_links']['theme path'] = drupal_get_path('module', 'cpagardens_admin');
+    $registry['admin_menu_links']['theme path'] = drupal_get_path('module', 'admin_menu_responsive');
   }
 }
 
 /**
- * Implements hook_page_build().
+ * Implements hook_page_alter().
  *
  * Replace styles and override some js functions for admin_menu.
  */
-function admin_menu_responsive_page_build(&$page) {
-  if (!user_access('access administration menu') || admin_menu_suppress(FALSE)) {
-    return;
-  }
+function admin_menu_responsive_page_alter(&$page) {
+  if (isset($page['page_bottom']['admin_menu']['#attached'])) {
+    $admin_menu_responsive = drupal_get_path('module', 'admin_menu_responsive');
 
-  // Performance: Skip this entirely for AJAX requests.
-  if (strpos($_GET['q'], 'js/') === 0) {
-    return;
+    $attached = &$page['page_bottom']['admin_menu']['#attached'];
+    $attached['css'] = array($admin_menu_responsive . '/admin_menu.css' => array('every_page' => TRUE));
+    $attached['js'][$admin_menu_responsive . '/admin_menu.js'] = array('every_page' => TRUE);
   }
-  $cpagardens_admin = drupal_get_path('module', 'cpagardens_admin');
-
-  $attached = &$page['page_bottom']['admin_menu']['#attached'];
-  $attached['css'] = array($cpagardens_admin . '/admin_menu.css' => array('every_page' => TRUE));
-  $attached['js'][$cpagardens_admin . '/admin_menu.js'] = array('every_page' => TRUE);
 }
 
 /**
