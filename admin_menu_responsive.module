@@ -1,0 +1,208 @@
+<?php
+/**
+ * @file
+ *   Modify the admin bar to make it responsive.
+ */
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Run our hook_page_build and admin_menu_output_alter implementations last.
+ */
+function admin_menu_responsive_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'page_build' || $hook == 'admin_menu_output_alter') {
+    $group = $implementations['cpagardens_admin'];
+    unset($implementations['cpagardens_admin']);
+    $implementations['cpagardens_admin'] = $group;
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Replace theme_admin_menu_links with our own function.
+ */
+function admin_menu_responsive_theme_registry_alter(&$registry) {
+  if (isset($registry['admin_menu_links'])) {
+    $registry['admin_menu_links']['function'] = 'admin_menu_responsive_admin_menu_links';
+    $registry['admin_menu_links']['theme path'] = drupal_get_path('module', 'cpagardens_admin');
+  }
+}
+
+/**
+ * Implements hook_page_build().
+ *
+ * Replace styles and override some js functions for admin_menu.
+ */
+function admin_menu_responsive_page_build(&$page) {
+  if (!user_access('access administration menu') || admin_menu_suppress(FALSE)) {
+    return;
+  }
+
+  // Performance: Skip this entirely for AJAX requests.
+  if (strpos($_GET['q'], 'js/') === 0) {
+    return;
+  }
+  $cpagardens_admin = drupal_get_path('module', 'cpagardens_admin');
+
+  $attached = &$page['page_bottom']['admin_menu']['#attached'];
+  $attached['css'] = array($cpagardens_admin . '/admin_menu.css' => array('every_page' => TRUE));
+  $attached['js'][$cpagardens_admin . '/admin_menu.js'] = array('every_page' => TRUE);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function admin_menu_responsive_theme() {
+  return array(
+    'admin_menu_main_icon' => array(
+      'variables' => array('src' => NULL, 'alt' => NULL),
+    ),
+  );
+}
+
+/**
+ * @ingroup themable
+ */
+function theme_admin_menu_main_icon($variables) {
+  return '<img class="admin-menu-main-icon" src="' . $variables['src'] . '" width="16" height="16" alt="' . $variables['alt'] . '" />';
+}
+
+/**
+ * Implements hook_admin_menu_output_alter().
+ *
+ * Change menu's ouput html.
+ */
+function admin_menu_responsive_admin_menu_output_alter(&$content) {
+  // Put all primary menu links into a submenu of new item, 'main'.
+  $new_root = array(
+    '#title' => theme('admin_menu_main_icon'),
+    '#attributes' => array('class' => array('admin-menu-main')),
+    '#options' => array( 'html' => TRUE),
+  );
+  foreach (element_children($content['menu']) as $key) {
+    $new_root[$key] = $content['menu'][$key];
+    unset($content['menu'][$key]);
+  }
+  $content['menu']['main'] = $new_root;
+
+  // Move search into a submenu of a new 'open' item.
+  $content['search']['search']['#title'] = NULL;
+  $content['search']['open'] = array(
+    '#title' => t('Search'),
+    '#options' => array('attributes' => array()),
+  );
+  $content['search']['open'][] = $content['search']['search'];
+  unset($content['search']['search']);
+
+  // Add a new root menu item, 'home' visible only at mobile width.
+  $content['home'] = array(
+    '#theme' => 'admin_menu_links',
+    '#wrapper_attributes' => array('id' => 'admin-menu-home', 'class' => array('left')),
+    '#weight' => -100,
+    'home' => array(
+      '#title' => theme('admin_menu_icon'),
+      '#attributes' => array('class' => array('admin-menu-home')),
+      '#href' => '<front>',
+      '#options' => array(
+        'html' => TRUE,
+      ),
+    ),
+  );
+  $content['icon']['#wrapper_attributes']['class'][] = 'left';
+  $content['menu']['#wrapper_attributes']['class'][] = 'left';
+
+  $content['account']['#wrapper_attributes']['class'][] = 'right';
+  $content['users']['#wrapper_attributes']['class'][] = 'right';
+  $content['search']['#wrapper_attributes']['class'][] = 'right';
+}
+
+/**
+ * Overrides theme_admin_menu_links().
+ */
+function admin_menu_responsive_admin_menu_links($variables) {
+  $destination = &drupal_static('admin_menu_destination');
+  $elements = $variables['elements'];
+
+  if (!isset($destination)) {
+    $destination = drupal_get_destination();
+    $destination = $destination['destination'];
+  }
+
+  // The majority of items in the menu are sorted already, but since modules
+  // may add or change arbitrary items anywhere, there is no way around sorting
+  // everything again. element_sort() is not sufficient here, as it
+  // intentionally retains the order of elements having the same #weight,
+  // whereas menu links are supposed to be ordered by #weight and #title.
+  uasort($elements, 'admin_menu_element_sort');
+  $elements['#sorted'] = TRUE;
+
+  $output = '';
+  foreach (element_children($elements) as $path) {
+    $handle = '';
+    // Early-return nothing if user does not have access.
+    if (isset($elements[$path]['#access']) && !$elements[$path]['#access']) {
+      continue;
+    }
+    $elements[$path] += array(
+      '#attributes' => array(),
+      '#options' => array(),
+    );
+    // Render children to determine whether this link is expandable.
+    if (isset($elements[$path]['#type']) || isset($elements[$path]['#theme']) || isset($elements[$path]['#pre_render'])) {
+      $elements[$path]['#children'] = drupal_render($elements[$path]);
+    }
+    else {
+      $elements[$path]['#children'] = theme('admin_menu_links', array('elements' => $elements[$path]));
+      if (!empty($elements[$path]['#children'])) {
+        $elements[$path]['#attributes']['class'][] = 'expandable';
+      }
+      if (isset($elements[$path]['#attributes']['class'])) {
+        $elements[$path]['#attributes']['class'] = $elements[$path]['#attributes']['class'];
+      }
+    }
+
+    // If level is both a link and has children.
+    if (isset($elements[$path]['#href']) && !empty($elements[$path]['#children'])) {
+      $handle = '<button class="handle"></button>';
+    }
+    $link = '';
+    // Handle menu links.
+    if (isset($elements[$path]['#href'])) {
+      // Strip destination query string from href attribute and apply a CSS class
+      // for our JavaScript behavior instead.
+      if (isset($elements[$path]['#options']['query']['destination']) && $elements[$path]['#options']['query']['destination'] == $destination) {
+        unset($elements[$path]['#options']['query']['destination']);
+        $elements[$path]['#options']['attributes']['class'][] = 'admin-menu-destination';
+      }
+
+      $link = l($elements[$path]['#title'], $elements[$path]['#href'], $elements[$path]['#options']);
+    }
+    // Handle plain text items, but do not interfere with menu additions.
+    elseif (!isset($elements[$path]['#type']) && isset($elements[$path]['#title'])) {
+      if (!empty($elements[$path]['#options']['html'])) {
+        $title = $elements[$path]['#title'];
+      }
+      else {
+        $title = check_plain($elements[$path]['#title']);
+      }
+      $attributes = '';
+      if (isset($elements[$path]['#options']['attributes'])) {
+        $attributes = drupal_attributes($elements[$path]['#options']['attributes']);
+      }
+      $link = '<span' . $attributes . '>' . $title . '</span>';
+    }
+
+    $output .= '<li' . drupal_attributes($elements[$path]['#attributes']) . '>';
+    $output .= $link . $handle . $elements[$path]['#children'];
+    $output .= '</li>';
+  }
+  // @todo #attributes probably required for UL, but already used for LI.
+  // @todo Use $element['#children'] here instead.
+  if ($output) {
+    $elements['#wrapper_attributes']['class'][] = 'dropdown';
+    $attributes = drupal_attributes($elements['#wrapper_attributes']);
+    $output = "\n" . '<ul' . $attributes . '>' . $output . '</ul>';
+  }
+  return $output;
+}
