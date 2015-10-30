@@ -22,16 +22,11 @@ body.admin-menu:before {
 }
 
 #admin-menu .handle {
-  padding: 15px;
+  padding: 20px;
   margin-left: 5px;
+  background: #ccc;
   touch-action: manipulation;
   cursor: pointer;
-  background-image: none;
-  border: 0;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 #admin-menu .left {

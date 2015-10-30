@@ -158,7 +158,7 @@ function admin_menu_responsive_admin_menu_links($variables) {
 
     // If level is both a link and has children.
     if (isset($elements[$path]['#href']) && !empty($elements[$path]['#children'])) {
-      $handle = '<button class="handle"></button>';
+      $handle = '<span class="handle"></span>';
     }
     $link = '';
     // Handle menu links.
