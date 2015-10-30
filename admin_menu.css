@@ -136,9 +136,10 @@ body:before {
     display: block;
   }
 }
-@media (max-width: 1023px) {
-}
 @media (min-width: 1024px) {
+  .admin-menu-position-fixed {
+    position: fixed;
+  }
   #admin-menu {
     font-size: 13px;
   }
