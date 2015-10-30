@@ -103,6 +103,10 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
       ),
     ),
   );
+
+  $content['#prefix'] = str_replace('<div id="admin-menu-wrapper">', '', $content['#prefix']);
+  $content['#suffix'] = preg_replace('/<\/div>/', '', $content['#suffix'], 1);
+
   $content['icon']['#wrapper_attributes']['class'][] = 'left';
   $content['menu']['#wrapper_attributes']['class'][] = 'left';
 
@@ -180,10 +184,17 @@ function admin_menu_responsive_admin_menu_links($variables) {
       else {
         $title = check_plain($elements[$path]['#title']);
       }
-      $attributes = '';
-      if (isset($elements[$path]['#options']['attributes'])) {
-        $attributes = drupal_attributes($elements[$path]['#options']['attributes']);
+      if (!isset($elements[$path]['#options'])) {
+        $elements[$path]['#options'] = array();
       }
+      if (!isset($elements[$path]['#options']['attributes'])) {
+        $elements[$path]['#options']['attributes'] = array();
+      }
+      if (!isset($elements[$path]['#options']['attributes']['class'])) {
+        $elements[$path]['#options']['attributes']['class'] = array();
+      }
+      $elements[$path]['#options']['attributes']['class'][] = 'trigger';
+      $attributes = drupal_attributes($elements[$path]['#options']['attributes']);
       $link = '<span' . $attributes . '>' . $title . '</span>';
     }
 

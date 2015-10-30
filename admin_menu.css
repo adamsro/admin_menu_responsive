@@ -1,49 +1,46 @@
-body.admin-menu:before {
+body:before {
   content: "";
   display: block;
-  height: 29px;
+  height: 50px;
 }
 #admin-menu {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
-  font: 16px/1.5  system, -apple-system, ".SFNSDisplay-Regular", "Segoe UI", "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
+  height: 50px;
+  font: 15px/1.5  system, -apple-system, ".SFNSDisplay-Regular", "Segoe UI", "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
   background-color: #232323;
-}
-#admin-menu-wrapper {
-  overflow: hidden;
-}
-#admin-menu a, #admin-menu span {
+/*  overflow: hidden;
+*/}
+#admin-menu a, #admin-menu .trigger {
   color: #eee;
   padding: 15px;
   display: inline-block;
   background-color: #333;
 }
-
 #admin-menu .handle {
-  padding: 20px;
-  margin-left: 5px;
+  display: block;
+  float: right; /* LTR */
+  height: 50px;
+  width: 50px;
   background: #ccc;
   touch-action: manipulation;
   cursor: pointer;
 }
-
+#admin-menu .active {
+  background: green;
+}
 #admin-menu .left {
   float: left;
 }
 #admin-menu .right {
   float: right;
 }
-#admin-menu-icon {
-  display: none;
-}
-#admin-menu-users {
-  display: none;
-}
 #admin-menu-account > li {
   float: right;
 }
+
 
 /**
  * All lists
@@ -65,17 +62,30 @@ body.admin-menu:before {
   background: #333;
   display: none;
   width: 100%;
+  position: absolute;
+  left: 0 !important;
 }
 
 /* Third level lists */
-#admin-menu .dropdown li li.expandable ul {
+#admin-menu .dropdown li .expandable ul {
   /* margin: -20px 0 0 160px; /* LTR */
   background: #444;
+  position: static;
 }
-/* Fourth-and-above-level lists */
-#admin-menu .dropdown li li.expandable ul li.expandable ul {
+/* Fourth level lists */
+#admin-menu .dropdown li .expandable ul .expandable ul {
   /* margin: -20px 0 0 160px; /* LTR */
   background: #555;
+}
+/* Fifth-and-above level lists */
+#admin-menu .dropdown li .expandable ul .expandable ul .expandable ul {
+  /* margin: -20px 0 0 160px; /* LTR */
+  background: #666;
+}
+/* Sixth-and-above level lists */
+#admin-menu .dropdown li .expandable ul .expandable ul .expandable ul .expandable ul {
+  /* margin: -20px 0 0 160px; /* LTR */
+  background: #777;
 }
 
 #admin-menu .dropdown li:hover ul ul,
@@ -83,7 +93,7 @@ body.admin-menu:before {
 #admin-menu .dropdown li:hover ul ul ul ul,
 #admin-menu .dropdown li:hover ul ul ul ul ul {
   display: none;
-  left: -999em; /* LTR */
+  /* left: -999em; /* LTR */
 }
 
 /* Lists nested under hovered list items */
@@ -96,11 +106,26 @@ body.admin-menu:before {
   /*left: auto; */ /* LTR */
 }
 #admin-menu .dropdown li.admin-menu-action:hover ul {
-  right: 0; /* LTR */
+  /* right: 0; /* LTR */
 }
 
-
-@media (min-width: 400px) {
+/**
+ * Mobile States
+ */
+#admin-menu-icon {
+  display: none;
+}
+#admin-menu-users {
+  display: none;
+}
+/*
+ * Hide touch handles on devices which may hover with ease.
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
+ */
+@media (hover) {
+  // #admin-menu .handle {display: none; }
+}
+@media (min-width: 420px) {
   #admin-menu-icon {
     display: block;
   }
@@ -112,22 +137,33 @@ body.admin-menu:before {
   }
 }
 @media (max-width: 1023px) {
-  #admin-menu .dropdown li ul {
-    left: 0 !important;
-    position: absolute;
-  }
 }
 @media (min-width: 1024px) {
   #admin-menu {
-    font-size: 14px;
+    font-size: 13px;
   }
-  #admin-menu .admin-menu-main > *:not(.dropdown) {
+  #admin-menu-menu > li > *:not(.dropdown) {
     display: none;
   }
-  #admin-menu .admin-menu-main > .dropdown {
+  #admin-menu-menu > li > .dropdown {
     display: block !important;
   }
-  #admin-menu .admin-menu-main > .dropdown > li {
+  #admin-menu-menu > li > .dropdown > li {
+    display: inline-block;
+  }
+}
+
+/**
+ * Expand Search
+ */
+@media (min-width: 1300px) {
+  #admin-menu-search > li > *:not(.dropdown) {
+    display: none;
+  }
+  #admin-menu-search > li > .dropdown {
+    display: block !important;
+  }
+  #admin-menu-search > li > .dropdown > li {
     display: inline-block;
   }
 }
