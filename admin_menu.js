@@ -6,17 +6,18 @@
 
     // Clicks open and close menu sections.
     $('li.expandable span', $adminMenu).on('click', function(event) {
-      var uls = $('~ ul', this);
-      if (uls[0].style.display == 'block') {
-        uls.css({display: 'none'});
+      var $uls = $('~ ul', this), $li = $(this).parent();
+      if ($uls[0].style.display == 'block') {
+        $uls.css({display: 'none'});
       } else {
-        uls.css({left: 'auto', display: 'block'});
-        // Immediately hide nephew lists.
-        uls.parent().siblings('li').children('ul').css({display: 'none'});
-        // Sometimes child lists arent hidden correctly.
-        uls.find('ul').css({display: 'none'});
-        // Close other top level menus and their decedents
-        uls.parents('ul', $adminMenu).siblings('ul').find('ul').css({display: 'none'});
+        $uls.css({left: 'auto', display: 'block'});
+        // Hide nephew lists.
+        $uls.parent().siblings('li').children('ul')
+        // Hide child lists.
+        .add($uls.find('ul').css({display: 'none'}))
+        // Hide other top level menus and their decedents.
+        .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
+        .css({display: 'none'});
       }
     });
 
@@ -27,17 +28,16 @@
           // Stop the timer.
           clearTimeout(this.sfTimer);
           // Display child lists.
-          var uls = $('> ul', this);
-          uls.css({left: 'auto', display: 'block'});
+          $('> ul', this).css({left: 'auto', display: 'block'})
           // Immediately hide nephew lists.
-          uls.parent().siblings('li').children('ul').css({display: 'none'});
+            .parent().siblings('li').children('ul').css({display: 'none'});
         }
       },
       function (event) {
         if ($(window).width() >= 1024) {
-          var uls = $('> ul', this);
+          var $uls = $('> ul', this);
           this.sfTimer = setTimeout(function () {
-            uls.css({display: 'none'});
+            $uls.css({display: 'none'});
           }, 400);
         }
       }
