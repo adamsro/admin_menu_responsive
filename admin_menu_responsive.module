@@ -70,9 +70,9 @@ function theme_admin_menu_main_icon($variables) {
 function admin_menu_responsive_admin_menu_output_alter(&$content) {
   // Put all primary menu links into a submenu of new item, 'main'.
   $new_root = array(
-    '#title' => theme('admin_menu_main_icon'),
-    '#attributes' => array('class' => array('admin-menu-main')),
-    '#options' => array( 'html' => TRUE),
+    '#title' => '&nbsp;',
+    '#options' => array('html' => TRUE),
+    '#attributes' => array('class' => array('admin-menu-menu')),
   );
   foreach (element_children($content['menu']) as $key) {
     $new_root[$key] = $content['menu'][$key];
@@ -83,8 +83,9 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
   // Move search into a submenu of a new 'open' item.
   $content['search']['search']['#title'] = NULL;
   $content['search']['open'] = array(
-    '#title' => t('Search'),
-    '#options' => array('attributes' => array()),
+    '#title' => '&nbsp;',
+    '#options' => array('html' => TRUE),
+    '#attributes' => array('class' => array('admin-menu-search')),
   );
   $content['search']['open'][] = $content['search']['search'];
   unset($content['search']['search']);
@@ -95,14 +96,15 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
     '#wrapper_attributes' => array('id' => 'admin-menu-home', 'class' => array('left')),
     '#weight' => -100,
     'home' => array(
-      '#title' => theme('admin_menu_icon'),
-      '#attributes' => array('class' => array('admin-menu-home')),
+      '#title' => '&nbsp;',
       '#href' => '<front>',
+      '#attributes' => array('class' => array('admin-menu-home')),
       '#options' => array(
         'html' => TRUE,
       ),
     ),
   );
+  $content['icon']['icon']['#title'] = '&nbsp;';
 
   $content['#prefix'] = str_replace('<div id="admin-menu-wrapper">', '', $content['#prefix']);
   $content['#suffix'] = preg_replace('/<\/div>/', '', $content['#suffix'], 1);
