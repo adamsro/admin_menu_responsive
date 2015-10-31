@@ -3,24 +3,27 @@
    * Overrides Drupal.admin.behaviors.hover().
    */
   Drupal.admin.behaviors.hover = function (context, settings, $adminMenu) {
-    var allowClick = true;
 
-    // Clicks open and close sections as well as hover.
+    // Clicks open and close menu sections.
     $('li.expandable span', $adminMenu).on('click', function(event) {
-      if (allowClick === true) {
-        var uls = $('~ ul', this);
-        if (uls[0].style.display == 'block') {
-          uls.css({display: 'none'});
-        } else {
-          uls.parent().trigger('mouseenter');
-        }
+      var uls = $('~ ul', this);
+      if (uls[0].style.display == 'block') {
+        uls.css({display: 'none'});
+      } else {
+        uls.css({left: 'auto', display: 'block'});
+        // Immediately hide nephew lists.
+        uls.parent().siblings('li').children('ul').css({display: 'none'});
+        // Sometimes child lists arent hidden correctly.
+        uls.find('ul').css({display: 'none'});
+        // Close other top level menus and their decedents
+        uls.parents('ul', $adminMenu).siblings('ul').find('ul').css({display: 'none'});
       }
     });
 
     // Delayed mouseout.
     $('li.expandable', $adminMenu).hover(
       function (event) {
-        if (allowClick === true) {
+        if ($(window).width() >= 1024) {
           // Stop the timer.
           clearTimeout(this.sfTimer);
           // Display child lists.
@@ -28,29 +31,15 @@
           uls.css({left: 'auto', display: 'block'});
           // Immediately hide nephew lists.
           uls.parent().siblings('li').children('ul').css({display: 'none'});
-         // Sometimes child lists arent hidden correctly.
-          uls.find('ul').css({display: 'none'});
-          // Close other top level menus and their decedents
-          // uls.parents('ul', $adminMenu).siblings('ul').find('ul').css({display: 'none'});
-          // Hide child lists
-          uls.find('ul').css({display: 'none'});
-
-          allowClick = false;
-          setTimeout(function() {
-            allowClick = true;
-          }, 0);
         }
       },
       function (event) {
-        // Start the timer.
-        if (allowClick === true) {
-        var uls = $('> ul', this);
-          uls.css({display: 'none'});
+        if ($(window).width() >= 1024) {
+          var uls = $('> ul', this);
+          this.sfTimer = setTimeout(function () {
+            uls.css({display: 'none'});
+          }, 400);
         }
-        // this.sfTimer = setTimeout(function () {
-        //   uls.css({display: 'none'});
-        // }, 400);
-        // return false;
       }
     );
 
