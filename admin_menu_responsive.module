@@ -164,8 +164,21 @@ function admin_menu_responsive_admin_menu_links($variables) {
     if (isset($elements[$path]['#href']) && !empty($elements[$path]['#children'])) {
       $handle = '<span class="handle"></span>';
     }
-    $link = '';
+
+    // Add item class to all menu links and spans
+    if (!isset($elements[$path]['#options'])) {
+      $elements[$path]['#options'] = array();
+    }
+    if (!isset($elements[$path]['#options']['attributes'])) {
+      $elements[$path]['#options']['attributes'] = array();
+    }
+    if (!isset($elements[$path]['#options']['attributes']['class'])) {
+      $elements[$path]['#options']['attributes']['class'] = array();
+    }
+    $elements[$path]['#options']['attributes']['class'][] = 'item';
+
     // Handle menu links.
+    $link = '';
     if (isset($elements[$path]['#href'])) {
       // Strip destination query string from href attribute and apply a CSS class
       // for our JavaScript behavior instead.
@@ -184,16 +197,6 @@ function admin_menu_responsive_admin_menu_links($variables) {
       else {
         $title = check_plain($elements[$path]['#title']);
       }
-      if (!isset($elements[$path]['#options'])) {
-        $elements[$path]['#options'] = array();
-      }
-      if (!isset($elements[$path]['#options']['attributes'])) {
-        $elements[$path]['#options']['attributes'] = array();
-      }
-      if (!isset($elements[$path]['#options']['attributes']['class'])) {
-        $elements[$path]['#options']['attributes']['class'] = array();
-      }
-      $elements[$path]['#options']['attributes']['class'][] = 'trigger';
       $attributes = drupal_attributes($elements[$path]['#options']['attributes']);
       $link = '<span' . $attributes . '>' . $title . '</span>';
     }

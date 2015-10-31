@@ -6,18 +6,19 @@
 
     // Clicks open and close menu sections.
     $('li.expandable span', $adminMenu).on('click', function(event) {
-      var $uls = $('~ ul', this), $li = $(this).parent();
+      var $uls = $('~ ul', this);
       if ($uls[0].style.display == 'block') {
-        $uls.css({display: 'none'});
+        $uls.css({display: 'none'}).parent().removeClass('open');
       } else {
-        $uls.css({left: 'auto', display: 'block'});
+        $(this).parent().addClass('open');
+        $uls.css({display: 'block'});
         // Hide nephew lists.
         $uls.parent().siblings('li').children('ul')
         // Hide child lists.
         .add($uls.find('ul').css({display: 'none'}))
         // Hide other top level menus and their decedents.
         .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
-        .css({display: 'none'});
+        .css({display: 'none'}).parent().removeClass('open');
       }
     });
 
@@ -27,17 +28,18 @@
         if ($(window).width() >= 1024) {
           // Stop the timer.
           clearTimeout(this.sfTimer);
+          $(this).addClass('open');
           // Display child lists.
-          $('> ul', this).css({left: 'auto', display: 'block'})
+          $('> ul', this).css({display: 'block'})
           // Immediately hide nephew lists.
-            .parent().siblings('li').children('ul').css({display: 'none'});
+            .parent().siblings('li').children('ul').css({display: 'none'}).parent().removeClass('open');
         }
       },
       function (event) {
         if ($(window).width() >= 1024) {
           var $uls = $('> ul', this);
           this.sfTimer = setTimeout(function () {
-            $uls.css({display: 'none'});
+            $uls.css({display: 'none'}).parent().removeClass('open');
           }, 400);
         }
       }
