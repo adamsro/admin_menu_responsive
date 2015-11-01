@@ -8,28 +8,28 @@ body:before {
   left: 0;
   top: 0;
   width: 100%;
-  height: 50px;
-  font: 15px/1.334  system, -apple-system, ".SFNSDisplay-Regular", "Segoe UI", "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
+  font: 15px/1.5 system, -apple-system, ".SFNSDisplay-Regular", "Segoe UI", "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
   background-color: #232323;
 }
 #admin-menu .item {
+  display: block;
+  height: 50px;
   color: #eee;
-  padding: 15px;
-  display: inline-block;
+  padding: 13.75px; /** 13.75px padding * 2 + 15px font * 1.5 = 50px */
   touch-action: manipulation;
   cursor: pointer;
 }
-#admin-menu .open {
-  background-color: red;
+#admin-menu .expandable > .item {
+  margin-right: 50px; /* LTR */
 }
 #admin-menu .handle {
   display: block;
   float: right; /* LTR */
-  height: 50px;
   width: 50px;
+  height: 50px;
   touch-action: manipulation;
   cursor: pointer;
-  background: no-repeat center center #111 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTguMDAyIDFjLTMuODY5IDAtNy4wMDIgMy4xMzQtNy4wMDIgN3MzLjEzMyA3IDcuMDAyIDdjMy44NjUgMCA3LTMuMTM0IDctN3MtMy4xMzUtNy03LTd6bTQuNDU5IDYuMzM2bC00LjEwNSA0LjEwNWMtLjE5Ni4xODktLjUxNS4xODktLjcwOCAwbC00LjEwNy00LjEwNWMtLjE5NC0uMTk0LS4xOTQtLjUxMyAwLS43MDdsLjk3Ny0uOTc4Yy4xOTQtLjE5NC41MTMtLjE5NC43MDcgMGwyLjQyMiAyLjQyMWMuMTkyLjE5NS41MTMuMTk1LjcwOCAwbDIuNDIyLTIuNDJjLjE4OC0uMTk0LjUxMi0uMTk0LjcwNyAwbC45NzcuOTc3Yy4xOTMuMTk0LjE5My41MTMgMCAuNzA3eiIvPjwvc3ZnPg==");
+  background: no-repeat center center rgba(10,10,10,0.15) url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTguMDAyIDFjLTMuODY5IDAtNy4wMDIgMy4xMzQtNy4wMDIgN3MzLjEzMyA3IDcuMDAyIDdjMy44NjUgMCA3LTMuMTM0IDctN3MtMy4xMzUtNy03LTd6bTQuNDU5IDYuMzM2bC00LjEwNSA0LjEwNWMtLjE5Ni4xODktLjUxNS4xODktLjcwOCAwbC00LjEwNy00LjEwNWMtLjE5NC0uMTk0LS4xOTQtLjUxMyAwLS43MDdsLjk3Ny0uOTc4Yy4xOTQtLjE5NC41MTMtLjE5NC43MDcgMGwyLjQyMiAyLjQyMWMuMTkyLjE5NS41MTMuMTk1LjcwOCAwbDIuNDIyLTIuNDJjLjE4OC0uMTk0LjUxMi0uMTk0LjcwNyAwbC45NzcuOTc3Yy4xOTMuMTk0LjE5My41MTMgMCAuNzA3eiIvPjwvc3ZnPg==");
 }
 #admin-menu .left {
   float: left;
@@ -37,17 +37,26 @@ body:before {
 #admin-menu .right {
   float: right;
 }
-
-#admin-menu .admin-menu-menu {
+#admin-menu, #admin-menu .dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 999;
+}
+#admin-menu .dropdown {
+  position: static;
+}
+/*
+ * Top level
+ */
+#admin-menu .admin-menu-icon > .item, #admin-menu .admin-menu-home > .item {
   background: no-repeat center center url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGc+PHBhdGggZD0iTTE0Ljc1MiA2aC0xMy41MDJjLS42OSAwLTEuMjUuNTYtMS4yNSAxLjI1di41YzAgLjY4OS41NiAxLjI1IDEuMjUgMS4yNWgxMy41MDJjLjY4OSAwIDEuMjUtLjU2MSAxLjI1LTEuMjV2LS41YzAtLjY5LS41NjEtMS4yNS0xLjI1LTEuMjV6TTE0Ljc1MiAwaC0xMy41MDJjLS42OSAwLTEuMjUuNTYtMS4yNSAxLjI1di41YzAgLjY5LjU2IDEuMjUgMS4yNSAxLjI1aDEzLjUwMmMuNjg5IDAgMS4yNS0uNTYgMS4yNS0xLjI1di0uNWMwLS42OS0uNTYxLTEuMjUtMS4yNS0xLjI1ek0xNC43NTIgMTJoLTEzLjUwMmMtLjY5IDAtMS4yNS41NjEtMS4yNSAxLjI1di41YzAgLjY4OS41NiAxLjI1IDEuMjUgMS4yNWgxMy41MDJjLjY4OSAwIDEuMjUtLjU2MSAxLjI1LTEuMjV2LS41YzAtLjY4OS0uNTYxLTEuMjUtMS4yNS0xLjI1eiIvPjwvZz48L3N2Zz4=");
   width: 50px;
 }
-
-#admin-menu .admin-menu-icon, #admin-menu .admin-menu-home {
+#admin-menu .admin-menu-menu > .item {
   background: no-repeat center center url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGc+PHBhdGggZD0iTTE0Ljc1MiA2aC0xMy41MDJjLS42OSAwLTEuMjUuNTYtMS4yNSAxLjI1di41YzAgLjY4OS41NiAxLjI1IDEuMjUgMS4yNWgxMy41MDJjLjY4OSAwIDEuMjUtLjU2MSAxLjI1LTEuMjV2LS41YzAtLjY5LS41NjEtMS4yNS0xLjI1LTEuMjV6TTE0Ljc1MiAwaC0xMy41MDJjLS42OSAwLTEuMjUuNTYtMS4yNSAxLjI1di41YzAgLjY5LjU2IDEuMjUgMS4yNSAxLjI1aDEzLjUwMmMuNjg5IDAgMS4yNS0uNTYgMS4yNS0xLjI1di0uNWMwLS42OS0uNTYxLTEuMjUtMS4yNS0xLjI1ek0xNC43NTIgMTJoLTEzLjUwMmMtLjY5IDAtMS4yNS41NjEtMS4yNSAxLjI1di41YzAgLjY4OS41NiAxLjI1IDEuMjUgMS4yNWgxMy41MDJjLjY4OSAwIDEuMjUtLjU2MSAxLjI1LTEuMjV2LS41YzAtLjY4OS0uNTYxLTEuMjUtMS4yNS0xLjI1eiIvPjwvZz48L3N2Zz4=");
   width: 50px;
 }
-
 /** logout & account link  */
 #admin-menu .admin-menu-action {
   float: right;
@@ -59,35 +68,19 @@ body:before {
 }
 
 
-/**
- * All lists
- */
-#admin-menu,
-#admin-menu .dropdown {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  z-index: 999;
-}
-#admin-menu .dropdown {
-  position: static;
-}
 
 /* Second-level lists */
 /* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
-#admin-menu .dropdown li ul {
+#admin-menu .expandable ul {
   background: #333;
   display: none;
-  width: 100%;
   position: absolute;
-  left: 0 !important;
 }
-
 /* Third level lists */
-#admin-menu .dropdown li .expandable ul {
+/* #admin-menu .dropdown li .expandable ul {*/
+#admin-menu .expandable .expandable ul {
   /* margin: -20px 0 0 160px; /* LTR */
   background: #444;
-  position: static;
 }
 /* Fourth level lists */
 #admin-menu .dropdown li .expandable ul .expandable ul {
@@ -133,21 +126,31 @@ body:before {
     display: block;
   }
 }
-@media (min-width: 1024px) {
+  /* Second Level & up */
+  /* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
+  #admin-menu .expandable ul {
+    width: 100%;
+    left: 0;
+  }
+  /* Third Level & up */
+  #admin-menu .expandable .expandable ul {
+    position: static;
+  }
+@media (min-width: 768px) {
   .admin-menu-position-fixed {
     position: fixed;
   }
-  #admin-menu {
-    font-size: 13px;
+  /* Second Level & up */
+  /* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
+  #admin-menu .expandable ul {
+    width: 160px; /* Overrides mobile */
+    left: auto; /* Overrides mobile */
   }
-  #admin-menu-menu > li > *:not(.dropdown) {
-    display: none;
-  }
-  #admin-menu-menu > li > .dropdown {
-    display: block !important;
-  }
-  #admin-menu-menu > li > .dropdown > li {
-    display: inline-block;
+  /** Third level lists and above */
+  #admin-menu .expandable .expandable ul {
+    margin: -50px 0 0 160px; /* LTR */
+    position: absolute; /* Override mobile */
+    background: #444;
   }
   /* Hover works without JS */
   #admin-menu .dropdown li:hover ul ul,
@@ -172,6 +175,49 @@ body:before {
   }
 }
 
+@media (min-width: 1024px) {
+  /* reduce the size of everything */
+  body:before {
+    height: 40px;
+  }
+  #admin-menu {
+    font-size: 13px;
+  }
+  #admin-menu .item {
+    height: 40px;
+    padding: 10.25px; /** 10.25px padding * 2 + 13px font * 1.5 = 40px */
+  }
+  #admin-menu .expandable > .item {
+    margin-right: 40px; /* LTR */
+  }
+  #admin-menu .handle {
+    height: 40px;
+    width: 40px;
+  }
+  /** Third level lists and above */
+  #admin-menu .expandable .expandable ul {
+    margin-top: -40px;
+  }
+  /**
+   * Make the entire admin menu visible
+   */
+  /* 2nd level */
+  #admin-menu-menu > li > *:not(.dropdown) {
+    display: none;
+  }
+  #admin-menu-menu > li > .dropdown {
+    display: block !important;
+    width: auto;
+  }
+  #admin-menu-menu > li > .dropdown > li {
+    float: left;
+  }
+  /* 3rd level */
+  #admin-menu-menu > li > .dropdown > li > .dropdown {
+    margin: 0;
+  }
+}
+
 /**
  * Expand Search
  */
@@ -183,6 +229,7 @@ body:before {
     display: block !important;
   }
   #admin-menu-search > li > .dropdown > li {
-    display: inline-block;
+    /*display: inline-block;*/
+    float: left;
   }
 }

@@ -156,23 +156,11 @@ function admin_menu_responsive_admin_menu_links($variables) {
       $elements[$path]['#children'] = theme('admin_menu_links', array('elements' => $elements[$path]));
       if (!empty($elements[$path]['#children'])) {
         $elements[$path]['#attributes']['class'][] = 'expandable';
+        $handle = '<span class="handle"></span>';
       }
       if (isset($elements[$path]['#attributes']['class'])) {
         $elements[$path]['#attributes']['class'] = $elements[$path]['#attributes']['class'];
       }
-    }
-
-    // If level is both a link and has children.
-    if (isset($elements[$path]['#href']) && !empty($elements[$path]['#children'])) {
-      $handle = '<span class="handle"></span>';
-    }
-
-    // Add item class to all menu links and spans
-    if (!isset($elements[$path]['#options'])) {
-      $elements[$path]['#options'] = array();
-    }
-    if (!isset($elements[$path]['#options']['attributes'])) {
-      $elements[$path]['#options']['attributes'] = array();
     }
     if (!isset($elements[$path]['#options']['attributes']['class'])) {
       $elements[$path]['#options']['attributes']['class'] = array();
@@ -204,7 +192,7 @@ function admin_menu_responsive_admin_menu_links($variables) {
     }
 
     $output .= '<li' . drupal_attributes($elements[$path]['#attributes']) . '>';
-    $output .= $link . $handle . $elements[$path]['#children'];
+    $output .= $handle . $link . $elements[$path]['#children'];
     $output .= '</li>';
   }
   // @todo #attributes probably required for UL, but already used for LI.

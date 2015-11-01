@@ -3,15 +3,17 @@
    * Overrides Drupal.admin.behaviors.hover().
    */
   Drupal.admin.behaviors.hover = function (context, settings, $adminMenu) {
+    var alreadyOpened = false;
 
     // Clicks open and close menu sections.
     $('li.expandable span', $adminMenu).on('click', function(event) {
-      var $uls = $('~ ul', this);
-      if ($uls[0].style.display == 'block') {
-        $uls.css({display: 'none'}).parent().removeClass('open');
-      } else {
-        $(this).parent().addClass('open');
-        $uls.css({display: 'block'});
+      if ($(window).width() < 768) {
+        var $uls = $('~ ul', this);
+        if ($uls[0].style.display == 'block') {
+          $uls.css({display: 'none'}).parent().removeClass('open');
+        } else {
+          $(this).parent().addClass('open');
+          $uls.css({display: 'block'});
         // Hide nephew lists.
         $uls.parent().siblings('li').children('ul')
         // Hide child lists.
@@ -20,12 +22,13 @@
         .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
         .css({display: 'none'}).parent().removeClass('open');
       }
-    });
+    }
+  });
 
     // Delayed mouseout.
     $('li.expandable', $adminMenu).hover(
       function (event) {
-        if ($(window).width() >= 1024) {
+        if ($(window).width() >= 768) {
           // Stop the timer.
           clearTimeout(this.sfTimer);
           $(this).addClass('open');
@@ -36,7 +39,7 @@
         }
       },
       function (event) {
-        if ($(window).width() >= 1024) {
+        if ($(window).width() >= 768) {
           var $uls = $('> ul', this);
           this.sfTimer = setTimeout(function () {
             $uls.css({display: 'none'}).parent().removeClass('open');
