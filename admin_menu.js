@@ -8,19 +8,19 @@
     // Clicks open and close menu sections.
     $('li.expandable span', $adminMenu).on('click', function(event) {
         if ($(window).width() < 768) {
-      var $uls = $('~ ul', this);
-      if ($uls[0].style.display == 'block') {
-        $uls.css({display: 'none'}).parent().removeClass('open');
+      var $uls = $(this).parent().siblings('ul');
+      if ($uls.css('display') == 'block') {
+        $uls.css({display: 'none'}).closest('li').removeClass('open');
       } else {
-        $(this).parent().addClass('open');
+        $(this).closest('li').addClass('open');
         $uls.css({display: 'block'});
         // Hide nephew lists.
-        $uls.parent().siblings('li').children('ul')
+        $uls.closest('li').siblings('li').children('ul')
         // Hide child lists.
         .add($uls.find('ul'))
         // Hide other top level menus and their decedents.
         .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
-        .css({display: 'none'}).parent().removeClass('open');
+        .css({display: 'none'}).closest('li').removeClass('open');
       }
     }
     });

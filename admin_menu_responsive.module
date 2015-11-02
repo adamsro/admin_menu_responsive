@@ -72,13 +72,17 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
   $new_root = array(
     '#title' => '&nbsp;',
     '#options' => array('html' => TRUE),
-    '#attributes' => array('class' => array('admin-menu-menu')),
+    '#attributes' => array('class' => array('admin-menu-mobile')),
   );
   foreach (element_children($content['menu']) as $key) {
     $new_root[$key] = $content['menu'][$key];
-    unset($content['menu'][$key]);
   }
-  $content['menu']['main'] = $new_root;
+  $content['mobile'] = array(
+    '#theme' => 'admin_menu_links',
+    '#wrapper_attributes' => array('id' => 'admin-menu-mobile', 'class' => array('left')),
+    '#weight' => -100,
+    'main ' => $new_root,
+  );
 
   // Move search into a submenu of a new 'open' item.
   $content['search']['search']['#title'] = NULL;
@@ -192,7 +196,7 @@ function admin_menu_responsive_admin_menu_links($variables) {
     }
 
     $output .= '<li' . drupal_attributes($elements[$path]['#attributes']) . '>';
-    $output .= $handle . $link . $elements[$path]['#children'];
+    $output .= '<div class="item-wrap">' . $handle . $link . '</div>' . $elements[$path]['#children'];
     $output .= '</li>';
   }
   // @todo #attributes probably required for UL, but already used for LI.
