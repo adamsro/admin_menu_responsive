@@ -45,24 +45,6 @@ function admin_menu_responsive_page_alter(&$page) {
 }
 
 /**
- * Implements hook_theme().
- */
-function admin_menu_responsive_theme() {
-  return array(
-    'admin_menu_main_icon' => array(
-      'variables' => array('src' => NULL, 'alt' => NULL),
-    ),
-  );
-}
-
-/**
- * @ingroup themable
- */
-function theme_admin_menu_main_icon($variables) {
-  return '<img class="admin-menu-main-icon" src="' . $variables['src'] . '" width="16" height="16" alt="' . $variables['alt'] . '" />';
-}
-
-/**
  * Implements hook_admin_menu_output_alter().
  *
  * Change menu's ouput html.
@@ -84,15 +66,15 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
     'main ' => $new_root,
   );
 
-  // Move search into a submenu of a new 'open' item.
-  $content['search']['search']['#title'] = '&nbsp;';
+  $content['search']['search'] = array(
+    '#type' => 'markup',
+    '#markup' => '<input placeholder="Search" class="admin-menu-search" type="search" size="60" maxlength="128"></input>',
+    );
   $content['search']['open'] = array(
     '#title' => t('Search'),
     '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-menu-svg'))),
     '#attributes' => array('class' => array('admin-menu-search')),
   );
-  $content['search']['open'][] = $content['search']['search'];
-  unset($content['search']['search']);
 
   // Add a new root menu item, 'home' visible only at mobile width.
   // $content['home'] = array(
@@ -195,7 +177,9 @@ function admin_menu_responsive_admin_menu_links($variables) {
     }
 
     $output .= '<li' . drupal_attributes($elements[$path]['#attributes']) . '>';
-    $output .= '<div class="item-wrap">' . $handle . $link . '</div>' . $elements[$path]['#children'];
+    if (!empty($link) || !empty($elements[$path]['#children'])) {
+      $output .= '<div class="item-wrap">' . $handle . $link . '</div>' . $elements[$path]['#children'];
+    }
     $output .= '</li>';
   }
   // @todo #attributes probably required for UL, but already used for LI.
