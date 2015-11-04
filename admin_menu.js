@@ -182,10 +182,10 @@ Drupal.admin.behaviors.positionFixed = function(context, settings, $adminMenu) {
 Drupal.admin.behaviors.pageTabs = function (context, settings, $adminMenu) {
   if (settings.admin_menu.tweak_tabs) {
     var $tabs = $(context).find('ul.tabs.primary');
-    $adminMenu.find('#admin-menu-wrapper > ul').eq(1)
+    $adminMenu.find('#admin-menu > ul').eq(1)
       .append($tabs.find('li').addClass('admin-menu-tab'));
     $(context).find('ul.tabs.secondary')
-      .appendTo('#admin-menu-wrapper > ul > li.admin-menu-tab.active')
+      .appendTo('#admin-menu > ul > li.admin-menu-tab.active')
       .removeClass('secondary');
     $tabs.remove();
   }
@@ -234,7 +234,7 @@ Drupal.admin.behaviors.hover = function(context, settings, $adminMenu) {
           // Hide child lists.
           .add($uls.find('ul'))
           // Hide other top level menus and their decedents.
-          .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
+          .add($uls.parentsUntil($adminMenu, 'ul').siblings('ul').find('ul'))
           .css({ display: 'none' }).parent().removeClass('open');
       }
     }
@@ -317,14 +317,25 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
   function buildSearchIndex($links) {
     return $links
       .map(function () {
-        var text = (this.textContent || this.innerText);
+        var category, $parents, a, text = (this.textContent || this.innerText);
         // Skip menu entries that do not contain any text (e.g., the icon).
         if (typeof text === 'undefined') {
           return;
         }
+
+        // Get the anchor text for the topmost parent of element, e.g. 'Content'
+        $parents = $(this).parentsUntil($adminMenu, 'li');
+        a = $parents.find('> a')[0];
+        // Don't select oneself.
+        if (a !== this) {
+          category = a.innerText || a.textContent;
+        }
+
         return {
           text: text,
           textMatch: text.toLowerCase(),
+          topMenu: $parents[$parents.length - 1].parentElement.id,
+          category: category,
           element: this
         };
       });
@@ -350,14 +361,7 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
       var result = this.text;
       var $element = $(this.element);
 
-      // Check whether there is a top-level category that can be prepended.
-      var $category = $element.closest('#admin-menu-wrapper > ul > li');
-      var categoryText = $category.find('> a').text()
-      if ($category.length && categoryText) {
-        result = categoryText + ': ' + result;
-      }
-
-      var $result = $('<li><a href="' + $element.attr('href') + '">' + result + '</a></li>');
+      var $result = $('<li class="' + this.topMenu + '-result"><a href="' + $element.attr('href') + '">' + this.category + ': ' + result + '</a></li>');
       $result.data('original-link', $(this.element).parent());
       $html.append($result);
     });

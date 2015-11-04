@@ -160,7 +160,7 @@ body.admin-menu:before {
 /**
  * Mobile States
  */
-#admin-menu-users, #admin-menu-menu {
+#admin-menu-users, #admin-menu-menu, .admin-menu-menu-result {
   display: none;
 }
 
@@ -260,10 +260,10 @@ body.admin-menu:before {
     width: 40px;
     height: 40px;
   }
-  #admin-menu-menu {
+  #admin-menu-menu, .admin-menu-menu-result {
     display: block;
   }
-  #admin-menu-mobile {
+  #admin-menu-mobile, .admin-menu-mobile-result {
     display: none;
   }
 }
