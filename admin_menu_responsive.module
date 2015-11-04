@@ -37,10 +37,11 @@ function admin_menu_responsive_theme_registry_alter(&$registry) {
 function admin_menu_responsive_page_alter(&$page) {
   if (isset($page['page_bottom']['admin_menu']['#attached'])) {
     $admin_menu_responsive = drupal_get_path('module', 'admin_menu_responsive');
-
     $attached = &$page['page_bottom']['admin_menu']['#attached'];
+
+    /* Replace both the css and js attached to the element with our own */
     $attached['css'] = array($admin_menu_responsive . '/admin_menu.css' => array('every_page' => TRUE));
-    $attached['js'][$admin_menu_responsive . '/admin_menu.js'] = array('every_page' => TRUE);
+    $attached['js']= array($admin_menu_responsive . '/admin_menu.js' => array('every_page' => TRUE));
   }
 }
 
@@ -190,4 +191,15 @@ function admin_menu_responsive_admin_menu_links($variables) {
     $output = "\n" . '<ul' . $attributes . '>' . $output . '</ul>';
   }
   return $output;
+}
+/**
+ * Implements HOOK_form_FORM_ID_alter().
+ */
+function admin_menu_responsive_form_admin_menu_theme_settings_alter(&$form, &$form_state) {
+  /* The followin options are not currently supported */
+  $form['tweaks']['admin_menu_tweak_tabs']['#value'] = $form['admin_menu_margin_top']['#value'] = 0;
+  $form['tweaks']['admin_menu_tweak_tabs']['#disabled'] = $form['admin_menu_margin_top']['#disabled'] = TRUE;
+  $form['tweaks']['admin_menu_tweak_tabs']['#description'] .= '<strong>' . t(' Not currently supported by admin_menu_responsive.') . '</strong>';
+  $form['admin_menu_margin_top']['#description'] .= '<strong>' .t(' Not currently supported by admin_menu_responsive.') . '</strong>';
+
 }
