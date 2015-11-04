@@ -39,9 +39,8 @@ function admin_menu_responsive_page_alter(&$page) {
     $admin_menu_responsive = drupal_get_path('module', 'admin_menu_responsive');
     $attached = &$page['page_bottom']['admin_menu']['#attached'];
 
-    /* Replace both the css and js attached to the element with our own */
     $attached['css'] = array($admin_menu_responsive . '/admin_menu.css' => array('every_page' => TRUE));
-    $attached['js']= array($admin_menu_responsive . '/admin_menu.js' => array('every_page' => TRUE));
+    $attached['js'] = array($admin_menu_responsive . '/admin_menu.js' => array('every_page' => TRUE));
   }
 }
 
@@ -69,7 +68,8 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
 
   $content['search']['search'] = array(
     '#type' => 'markup',
-    '#markup' => '<input placeholder="Search" class="admin-menu-search" type="search" size="60" maxlength="128"></input>',
+    '#markup' => '<span class="admin-menu-svg item">Close</span><input placeholder="Search" class="admin-menu-search" type="search" size="60" maxlength="128"></input>',
+    '#attributes' => array('class' => array('admin-menu-search-overlay')),
     );
   $content['search']['open'] = array(
     '#title' => t('Search'),
@@ -178,9 +178,7 @@ function admin_menu_responsive_admin_menu_links($variables) {
     }
 
     $output .= '<li' . drupal_attributes($elements[$path]['#attributes']) . '>';
-    if (!empty($link) || !empty($elements[$path]['#children'])) {
-      $output .= '<div class="item-wrap">' . $handle . $link . '</div>' . $elements[$path]['#children'];
-    }
+    $output .= $handle . $link . $elements[$path]['#children'];
     $output .= '</li>';
   }
   // @todo #attributes probably required for UL, but already used for LI.
@@ -192,13 +190,11 @@ function admin_menu_responsive_admin_menu_links($variables) {
   }
   return $output;
 }
+
 /**
  * Implements HOOK_form_FORM_ID_alter().
  */
 function admin_menu_responsive_form_admin_menu_theme_settings_alter(&$form, &$form_state) {
-  /* always desired */
-  unset($form['admin_menu_margin_top']['#value']);
-
   /* The followin options are not currently supported */
   $form['tweaks']['admin_menu_tweak_tabs']['#value'] = 0;
   $form['tweaks']['admin_menu_tweak_tabs']['#disabled'] = TRUE;

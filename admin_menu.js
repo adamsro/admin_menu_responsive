@@ -95,6 +95,21 @@ Drupal.behaviors.adminMenuCollapsePermissions = {
 };
 
 /**
+ * Apply margin to page.
+ *
+ * Note that directly applying marginTop does not work in IE. To prevent
+ * flickering/jumping page content with client-side caching, this is a regular
+ * Drupal behavior.
+ */
+Drupal.behaviors.adminMenuMarginTop = {
+  attach: function (context, settings) {
+    if (!settings.admin_menu.suppress && settings.admin_menu.margin_top) {
+      $('body:not(.admin-menu)', context).addClass('admin-menu');
+    }
+  }
+};
+
+/**
  * Retrieve content from client-side cache.
  *
  * @param hash
@@ -126,7 +141,13 @@ Drupal.admin.getCache = function (hash, onSuccess) {
  */
 Drupal.admin.height = function() {
   var $adminMenu = $('#admin-menu');
-  return $adminMenu.outerHeight();
+  var height = $adminMenu.outerHeight();
+  // In IE, Shadow filter adds some extra height, so we need to remove it from
+  // the returned height.
+  if ($adminMenu.css('filter') && $adminMenu.css('filter').match(/DXImageTransform\.Microsoft\.Shadow/)) {
+    height -= $adminMenu.get(0).filters.item("DXImageTransform.Microsoft.Shadow").strength;
+  }
+  return height;
 };
 
 /**
@@ -152,6 +173,21 @@ Drupal.admin.attachBehaviors = function (context, settings, $adminMenu) {
 Drupal.admin.behaviors.positionFixed = function(context, settings, $adminMenu) {
   if (settings.admin_menu.position_fixed) {
     $adminMenu.addClass('admin-menu-fixed');
+  }
+};
+
+/**
+ * Move page tabs into administration menu.
+ */
+Drupal.admin.behaviors.pageTabs = function (context, settings, $adminMenu) {
+  if (settings.admin_menu.tweak_tabs) {
+    var $tabs = $(context).find('ul.tabs.primary');
+    $adminMenu.find('#admin-menu-wrapper > ul').eq(1)
+      .append($tabs.find('li').addClass('admin-menu-tab'));
+    $(context).find('ul.tabs.secondary')
+      .appendTo('#admin-menu-wrapper > ul > li.admin-menu-tab.active')
+      .removeClass('secondary');
+    $tabs.remove();
   }
 };
 
@@ -187,19 +223,19 @@ Drupal.admin.behaviors.hover = function(context, settings, $adminMenu) {
   // Clicks open and close menu sections.
   $('li.expandable span', $adminMenu).on('click', function(event) {
     if ($(window).width() < 768) {
-      var $uls = $(this).parent().siblings('ul');
+      var $uls = $(this).siblings('ul');
       if ($uls.css('display') == 'block') {
-        $uls.css({display: 'none'}).closest('li').removeClass('open');
+        $uls.css({display: 'none'}).parent().removeClass('open');
       } else {
-        $(this).closest('li').addClass('open');
+        $(this).parent().addClass('open');
         $uls.css({ display: 'block' });
         // Hide nephew lists.
-        $uls.closest('li').siblings('li').children('ul')
+        $uls.parent().siblings('li').children('ul')
           // Hide child lists.
           .add($uls.find('ul'))
           // Hide other top level menus and their decedents.
           .add($uls.parents('ul', $adminMenu).siblings('ul').find('ul'))
-          .css({ display: 'none' }).closest('li').removeClass('open');
+          .css({ display: 'none' }).parent().removeClass('open');
       }
     }
   });
@@ -230,7 +266,6 @@ Drupal.admin.behaviors.hover = function(context, settings, $adminMenu) {
       }
     }
   );
-
 };
 
 /**
@@ -259,7 +294,7 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
       // Initialize the cache of menu links upon first search.
       if (!links && needle.length >= needleMinLength) {
         // @todo Limit to links in dropdown menus; i.e., skip menu additions.
-        links = buildSearchIndex($adminMenu.find('li:not(.admin-menu-action, .admin-menu-action li) > .item-wrap > a'));
+        links = buildSearchIndex($adminMenu.find('li:not(.admin-menu-action, .admin-menu-action li) > a'));
       }
       // Empty results container when deleting search text.
       if (needle.length < needleMinLength) {
@@ -317,7 +352,7 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
 
       // Check whether there is a top-level category that can be prepended.
       var $category = $element.closest('#admin-menu-wrapper > ul > li');
-      var categoryText = $category.find('> .item-wrap > a').text()
+      var categoryText = $category.find('> a').text()
       if ($category.length && categoryText) {
         result = categoryText + ': ' + result;
       }
@@ -374,5 +409,13 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
 /**
  * @} End of "defgroup admin_behaviors".
  */
+
+})(jQuery);
+(function($) {
+
+/**
+ * Apply 'position: fixed'.
+ */
+
 
 })(jQuery);

@@ -1,4 +1,4 @@
-body:before {
+body.admin-menu:before {
   content: "";
   display: block;
   height: 50px;
@@ -12,15 +12,14 @@ body:before {
   background-color: #232323;
   box-shadow: 0px 2px 2px rgba(50,50,50,.3);
 }
-#admin-menu a, #admin-menu a:active, #admin-menu a:hover {
-  text-decoration: none;
-}
 #admin-menu .item {
   display: block;
   color: #e8e8e8;
-  padding: 13.75px; /* (50px - (15px*1.3))/2 = 15.625px */
-  touch-action: manipulation;
+  padding: 13.75px 12px; /* (50px - (15px*1.3))/2 = 15.625px */
   cursor: pointer;
+}
+#admin-menu a, #admin-menu a:active, #admin-menu a:hover {
+  text-decoration: none;
 }
 #admin-menu a.item:hover {
   text-decoration: underline;
@@ -28,26 +27,28 @@ body:before {
 #admin-menu .handle {
   display: block;
   position: absolute;
-  top: 0; bottom: 0;
+  top: 0;
   right: 0;/* LTR */
   width: 50px;
+  height: 50px;
+
   cursor: pointer;
   /* Chevron down */
   background: no-repeat center center url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMyIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDMzIDIyIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTE1LjE3IDkuOTJDMTUuNyAxMC40NSAxNi41NyAxMC40NSAxNy4xIDkuOTJMMjYuMDcgMS4wNEMyNi42IDAuNTIgMjcuNDggMC41MiAyOCAxLjA1TDMxLjc0IDQuNzhDMzIuMjYgNS4zMSAzMi4yNiA2LjE4IDMxLjc0IDYuNzFMMTcuMSAyMS4yNUMxNi41NyAyMS43OCAxNS42OSAyMS43OCAxNS4xNyAyMS4yNUwwLjUzIDYuNzFDMCA2LjE4IDAgNS4zMSAwLjUzIDQuNzhMNC4yNiAxLjA1QzQuNzkgMC41MiA1LjY2IDAuNTIgNi4xOSAxLjA0TDE1LjE3IDkuOTIgMTUuMTcgOS45MloiIGZpbGw9IiNFOEU4RTgiLz48L2c+PC9zdmc+");
   background-size: 16px auto;
   opacity: 0.25;
 }
-#admin-menu .expandable > .item-wrap > .item {
+#admin-menu .expandable > .item {
   margin-right: 50px; /* LTR */
 }
 #admin-menu .open {
   display: block;
 }
-#admin-menu .open > .item-wrap > .handle {
+#admin-menu .open > .handle {
   /* Chevron up */
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMyIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDMzIDIyIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTE3LjExIDEyLjM3QzE2LjU3IDExLjg1IDE1LjY5IDExLjg1IDE1LjE3IDEyLjM3TDYuMiAyMS4yNUM1LjY2IDIxLjc4IDQuNzkgMjEuNzcgNC4yNiAyMS4yNUwwLjUzIDE3LjUxQzAgMTYuOTggMCAxNi4xMSAwLjUzIDE1LjU5TDE1LjE3IDEuMDVDMTUuNyAwLjUyIDE2LjU3IDAuNTIgMTcuMSAxLjA1TDMxLjc0IDE1LjU5QzMyLjI2IDE2LjExIDMyLjI2IDE2Ljk4IDMxLjc0IDE3LjUxTDI4LjAxIDIxLjI1QzI3LjQ4IDIxLjc3IDI2LjU5IDIxLjc4IDI2LjA3IDIxLjI1TDE3LjExIDEyLjM3IDE3LjExIDEyLjM3WiIgZmlsbD0iI0U4RThFOCIvPjwvZz48L3N2Zz4=");
 }
-#admin-menu .expandable, #admin-menu .item-wrap {
+#admin-menu .expandable {
   position: relative;
 }
 #admin-menu, #admin-menu .dropdown {
@@ -90,7 +91,7 @@ body:before {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMyIDMwIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTMuNSAwTDIuNSAwQzEuMTIgMCAwIDEuMTIgMCAyLjVMMCAzLjVDMCA0Ljg4IDEuMTIgNiAyLjUgNkwzLjUgNkM0Ljg4IDYgNiA0Ljg4IDYgMy41TDYgMi41QzYgMS4xMiA0Ljg4IDAgMy41IDBMMy41IDBaTTI5LjUgMEwxMi41IDBDMTEuMTIgMCAxMCAxLjEyIDEwIDIuNUwxMCAzLjVDMTAgNC44OCAxMS4xMiA2IDEyLjUgNkwyOS41IDZDMzAuODggNiAzMiA0Ljg4IDMyIDMuNUwzMiAyLjVDMzIgMS4xMiAzMC44OCAwIDI5LjUgMEwyOS41IDBaTTMuNSAxMkwyLjUgMTJDMS4xMiAxMiAwIDEzLjEyIDAgMTQuNUwwIDE1LjVDMCAxNi44OCAxLjEyIDE4IDIuNSAxOEwzLjUgMThDNC44OCAxOCA2IDE2Ljg4IDYgMTUuNUw2IDE0LjVDNiAxMy4xMiA0Ljg4IDEyIDMuNSAxMkwzLjUgMTJaTTI5LjUgMTJMMTIuNSAxMkMxMS4xMiAxMiAxMCAxMy4xMiAxMCAxNC41TDEwIDE1LjVDMTAgMTYuODggMTEuMTIgMTggMTIuNSAxOEwyOS41IDE4QzMwLjg4IDE4IDMyIDE2Ljg4IDMyIDE1LjVMMzIgMTQuNUMzMiAxMy4xMiAzMC44OCAxMiAyOS41IDEyTDI5LjUgMTJaTTMuNSAyNEwyLjUgMjRDMS4xMiAyNCAwIDI1LjEyIDAgMjYuNUwwIDI3LjVDMCAyOC44OCAxLjEyIDMwIDIuNSAzMEwzLjUgMzBDNC44OCAzMCA2IDI4Ljg4IDYgMjcuNUw2IDI2LjVDNiAyNS4xMiA0Ljg4IDI0IDMuNSAyNEwzLjUgMjRaTTI5LjUgMjRMMTIuNSAyNEMxMS4xMiAyNCAxMCAyNS4xMiAxMCAyNi41TDEwIDI3LjVDMTAgMjguODggMTEuMTIgMzAgMTIuNSAzMEwyOS41IDMwQzMwLjg4IDMwIDMyIDI4Ljg4IDMyIDI3LjVMMzIgMjYuNUMzMiAyNS4xMiAzMC44OCAyNCAyOS41IDI0TDI5LjUgMjRaIiBmaWxsPSIjRThFOEU4Ii8+PC9nPjwvc3ZnPg==");
   margin-right: 0 !important;
 }
-#admin-menu .admin-menu-mobile > .item-wrap > .handle {
+#admin-menu .admin-menu-mobile > .handle {
   display: none;
 }
 
@@ -120,7 +121,7 @@ body:before {
 #admin-menu .admin-menu-search .admin-menu-svg:hover, #admin-menu .admin-menu-search .admin-menu-svg:active {
   background-color: #0084d6;
 }
-#admin-menu .admin-menu-search > .item-wrap > .handle {
+#admin-menu .admin-menu-search > .handle {
   display: none;
 }
 
@@ -184,10 +185,6 @@ body:before {
   #admin-menu .expandable ul {
     width: 100%;
   }
-  /** First level */
-  #admin-menu > ul > .expandable {
-    position: static;
-  }
   #admin-menu .open .open ul {
     box-shadow: none;
   }
@@ -204,10 +201,10 @@ body:before {
 @media (min-width: 768px) {
  /* First Level & up */
   #admin-menu .expandable ul {
-    width: 180px;
+    width: 190px;
   }
   #admin-menu .expandable .expandable ul {
-    margin-left: 180px; /* LTR */
+    margin-left: 190px; /* LTR */
     top: 0;
   }
   #admin-menu .expandable .expandable .handle {
@@ -242,7 +239,7 @@ body:before {
 
 @media (min-width: 1200px) {
   /* reduce the size of everything */
-  body:before {
+  body.admin-menu:before {
     height: 40px;
   }
   #admin-menu.admin-menu-fixed {
@@ -260,11 +257,12 @@ body:before {
     /** padding: 14.625px 10px; make height 40px with 13px/1.25 */
     padding: 10.25px 10px; /* (40px - 13px*1.5em)/2 = 11.875px */
   }
-  #admin-menu .expandable > .item-wrap > .item {
+  #admin-menu .expandable > .item {
     margin-right: 40px; /* LTR */
   }
   #admin-menu .handle {
     width: 40px;
+    height: 40px;
   }
   #admin-menu-menu {
     display: block;
@@ -291,7 +289,7 @@ body:before {
 */
 @media (hover) {
   // #admin-menu .handle {display: none; }
-  // #admin-menu .expandable > .item-wrap > .item {
+  // #admin-menu .expandable > .item {
   //   margin-right: 0;
   // }
 }
