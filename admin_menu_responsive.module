@@ -196,10 +196,11 @@ function admin_menu_responsive_admin_menu_links($variables) {
  * Implements HOOK_form_FORM_ID_alter().
  */
 function admin_menu_responsive_form_admin_menu_theme_settings_alter(&$form, &$form_state) {
-  /* The followin options are not currently supported */
-  $form['tweaks']['admin_menu_tweak_tabs']['#value'] = $form['admin_menu_margin_top']['#value'] = 0;
-  $form['tweaks']['admin_menu_tweak_tabs']['#disabled'] = $form['admin_menu_margin_top']['#disabled'] = TRUE;
-  $form['tweaks']['admin_menu_tweak_tabs']['#description'] .= '<strong>' . t(' Not currently supported by admin_menu_responsive.') . '</strong>';
-  $form['admin_menu_margin_top']['#description'] .= '<strong>' .t(' Not currently supported by admin_menu_responsive.') . '</strong>';
+  /* always desired */
+  unset($form['admin_menu_margin_top']['#value']);
 
+  /* The followin options are not currently supported */
+  $form['tweaks']['admin_menu_tweak_tabs']['#value'] = 0;
+  $form['tweaks']['admin_menu_tweak_tabs']['#disabled'] = TRUE;
+  $form['tweaks']['admin_menu_tweak_tabs']['#description'] .= '<strong>' . t(' Not currently supported by admin_menu_responsive.') . '</strong>';
 }
