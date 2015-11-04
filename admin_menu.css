@@ -12,7 +12,7 @@ body.admin-menu:before {
   background-color: #232323;
   box-shadow: 0px 2px 2px rgba(50,50,50,.3);
 }
-#admin-menu .item {
+#admin-menu a, #admin-menu .fake-link {
   display: block;
   color: #e8e8e8;
   padding: 13.75px 12px; /* (50px - (15px*1.3))/2 = 15.625px */
@@ -21,7 +21,7 @@ body.admin-menu:before {
 #admin-menu a, #admin-menu a:active, #admin-menu a:hover {
   text-decoration: none;
 }
-#admin-menu a.item:hover {
+#admin-menu a:hover, #admin-menu .fake-link:hover {
   text-decoration: underline;
 }
 #admin-menu .handle {
@@ -38,7 +38,7 @@ body.admin-menu:before {
   background-size: 16px auto;
   opacity: 0.25;
 }
-#admin-menu .expandable > .item {
+#admin-menu .expandable > a, #admin-menu .expandable > .fake-link {
   margin-right: 50px; /* LTR */
 }
 #admin-menu .open {
@@ -250,10 +250,10 @@ body.admin-menu:before {
     width: 40px;
     height: 40px;
   }
-  #admin-menu .item {
+  #admin-menu a, #admin-menu .fake-link {
     padding: 10.25px 10px; /* (40px - 13px*1.5em)/2 = 11.875px */
   }
-  #admin-menu .expandable > .item {
+  #admin-menu .expandable > a, #admin-menu .expandable > .fake-link {
     margin-right: 40px; /* LTR */
   }
   #admin-menu .handle {
