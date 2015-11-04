@@ -411,11 +411,3 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
  */
 
 })(jQuery);
-(function($) {
-
-/**
- * Apply 'position: fixed'.
- */
-
-
-})(jQuery);

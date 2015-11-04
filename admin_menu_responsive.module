@@ -61,7 +61,7 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
   }
   $content['mobile'] = array(
     '#theme' => 'admin_menu_links',
-    '#wrapper_attributes' => array('id' => 'admin-menu-mobile',),
+    '#wrapper_attributes' => array('id' => 'admin-menu-mobile'),
     '#weight' => -100,
     'main ' => $new_root,
   );
@@ -77,25 +77,12 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
     '#attributes' => array('class' => array('admin-menu-search')),
   );
 
-  // Add a new root menu item, 'home' visible only at mobile width.
-  // $content['home'] = array(
-  //   '#theme' => 'admin_menu_links',
-  //   '#wrapper_attributes' => array('id' => 'admin-menu-home', 'class' => array('left')),
-  //   '#weight' => -100,
-  //   'home' => array(
-  //     '#title' => t('Front Page'),
-  //     '#href' => '<front>',
-  //     '#attributes' => array('class' => array('admin-menu-home')),
-  //     '#options' => array(
-  //       'html' => TRUE,
-  //     ),
-  //   ),
-  // );
+  // Don't use favicon for icon menu title.
   $content['icon']['icon']['#title'] = t('Icon Menu');
+
+  // Add classes for styling.
   $content['icon']['icon']['#options']['attributes']['class'][] = 'admin-menu-svg';
-
   $content['account']['account']['#options']['attributes']['class'][] = 'admin-menu-svg';
-
   $content['account']['logout']['#attributes']['class'][] = 'admin-menu-logout';
   $content['account']['logout']['#options']['attributes']['class'][] = 'admin-menu-svg';
 

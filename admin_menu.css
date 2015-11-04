@@ -125,11 +125,9 @@ body.admin-menu:before {
   display: none;
 }
 
-
-
-/** First level */
-/* Second-level lists and above */
-/* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
+/*
+ * Second-level lists and above
+ */
 #admin-menu .expandable ul {
   background: #333;
   display: none;
@@ -159,17 +157,13 @@ body.admin-menu:before {
   background: #888;
 }
 
-
 /**
  * Mobile States
  */
 #admin-menu-users, #admin-menu-menu {
   display: none;
 }
-/*
- * Hide touch handles on devices which may hover with ease.
- * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
- */
+
 @media (min-width: 420px) {
   #admin-menu-users {
     display: block;
@@ -181,7 +175,6 @@ body.admin-menu:before {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMSIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMxIDMwIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTQuODEgMjkuNjJDNS4yOSAzMC4xIDYuMDggMzAuMTEgNi41NiAyOS42MkwxNS4wOCAyMS4xMUMxNS41NyAyMC42MyAxNi4zNiAyMC42MyAxNi44NCAyMS4xMUwyNS4zNiAyOS42MkMyNS44NCAzMC4xMSAyNi42NCAzMC4xIDI3LjEyIDI5LjYyTDMwLjYgMjYuMUMzMS4wOCAyNS42MiAzMS4wNyAyNC44MyAzMC42IDI0LjM0TDIyLjE3IDE1LjlDMjEuNjkgMTUuNDMgMjEuNjkgMTQuNjMgMjIuMTYgMTQuMTVMMzAuNiA1LjYzQzMxLjA3IDUuMTUgMzEuMDcgNC4zNSAzMC42IDMuODdMMjcuMTEgMC4zNUMyNi42My0wLjEzIDI1Ljg0LTAuMTMgMjUuMzYgMC4zNUwxNi44NCA4Ljg3QzE2LjM2IDkuMzUgMTUuNTYgOS4zNSAxNS4wOCA4Ljg3TDYuNTYgMC4zNUM2LjA4LTAuMTQgNS4yOS0wLjEzIDQuODEgMC4zNUwxLjMyIDMuODdDMC44NCA0LjM1IDAuODQgNS4xNSAxLjMyIDUuNjNMOS43NyAxNC4xNEMxMC4yNSAxNC42MyAxMC4yNSAxNS40MiA5Ljc2IDE1LjlMMS4zMiAyNC4zNEMwLjg0IDI0LjgyIDAuODQgMjUuNjIgMS4zMiAyNi4xTDQuODEgMjkuNjIgNC44MSAyOS42MloiIGZpbGw9IiNFOEU4RTgiLz48L2c+PC9zdmc+");
   }
   /* First Level & up */
-  /* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
   #admin-menu .expandable ul {
     width: 100%;
   }
@@ -214,6 +207,7 @@ body.admin-menu:before {
   }
 
   /* Hover works without JS */
+  /* Note: We must hide sub-lists or scrollbars might appear (display: none is not read by screen readers). */
   #admin-menu .dropdown li:hover ul ul,
   #admin-menu .dropdown li:hover ul ul ul,
   #admin-menu .dropdown li:hover ul ul ul ul,
@@ -237,6 +231,9 @@ body.admin-menu:before {
   }
 }
 
+/**
+ * Desktop width
+ */
 @media (min-width: 1200px) {
   /* reduce the size of everything */
   body.admin-menu:before {
@@ -254,7 +251,6 @@ body.admin-menu:before {
     height: 40px;
   }
   #admin-menu .item {
-    /** padding: 14.625px 10px; make height 40px with 13px/1.25 */
     padding: 10.25px 10px; /* (40px - 13px*1.5em)/2 = 11.875px */
   }
   #admin-menu .expandable > .item {
@@ -287,6 +283,10 @@ body.admin-menu:before {
   }
 }
 */
+/*
+ * Hide touch handles on devices which may hover with ease.
+ * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
+ */
 @media (hover) {
   // #admin-menu .handle {display: none; }
   // #admin-menu .expandable > .item {
