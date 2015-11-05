@@ -177,6 +177,21 @@ Drupal.admin.behaviors.positionFixed = function(context, settings, $adminMenu) {
 };
 
 /**
+ * Toggle Search visibility
+ */
+Drupal.admin.behaviors.searchToggle = function(context, settings, $adminMenu) {
+  $('#admin-menu-search span', $adminMenu).on('click', function() {
+    if ($(window).width() < 768) {
+      // Hide other top level menus and their decedents.
+      $adminMenu.children('ul').find('ul').css({ display: 'none' }).parent().removeClass('open');
+    }
+    $('.admin-search-overlay', $adminMenu).toggleClass('open');
+    document.getElementById('admin-menu-search-input').focus();
+
+  });
+};
+
+/**
  * Move page tabs into administration menu.
  */
 Drupal.admin.behaviors.pageTabs = function (context, settings, $adminMenu) {
@@ -248,9 +263,7 @@ Drupal.admin.behaviors.hover = function(context, settings, $adminMenu) {
         clearTimeout(this.sfTimer);
         $(this).addClass('open');
         // Display child lists.
-        $uls = $('> ul', this).css({
-            display: 'block'
-          })
+        $uls = $('> ul', this).css({ display: 'block' })
           // Immediately hide nephew lists.
           .parent().siblings('li').children('ul')
           .css({ display: 'none' }).parent().removeClass('open');
@@ -272,8 +285,7 @@ Drupal.admin.behaviors.hover = function(context, settings, $adminMenu) {
  * Apply the search bar functionality.
  */
 Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
-  // @todo Add a HTML ID.
-  var $input = $('input.admin-menu-search', $adminMenu);
+  var $input = $('#admin-menu-search-input', $adminMenu);
   // Initialize the current search needle.
   var needle = $input.val();
   // Cache of all links that can be matched in the menu.
@@ -324,6 +336,7 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
         }
 
         // Get the anchor text for the topmost parent of element, e.g. 'Content'
+        // TODO Replace with a native while loop for performance.
         $parents = $(this).parentsUntil($adminMenu, 'li');
         a = $parents.find('> a')[0];
         // Don't select oneself.
@@ -390,7 +403,7 @@ Drupal.admin.behaviors.search = function (context, settings, $adminMenu) {
    * Shows the link in the menu that corresponds to a search result.
    */
   function highlightPathHandler(e, link) {
-    if (link) {
+    if (link && $(window).width() >= 768) {
       var $original = $(link).data('original-link');
       var show = e.type === 'showPath';
       // Toggle an additional CSS class to visually highlight the matching link.

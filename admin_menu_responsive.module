@@ -53,7 +53,7 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
   // Put all primary menu links into a submenu of new item, 'main'.
   $new_root = array(
     '#title' => t('Navigation Mobile'),
-    '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-menu-svg'))),
+    '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-svg'))),
     '#attributes' => array('class' => array('admin-menu-mobile')),
   );
   foreach (element_children($content['menu']) as $key) {
@@ -68,12 +68,12 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
 
   $content['search']['search'] = array(
     '#type' => 'markup',
-    '#markup' => '<span class="admin-menu-svg item">Close</span><input placeholder="Search" class="admin-menu-search" type="search" size="60" maxlength="128"></input>',
-    '#attributes' => array('class' => array('admin-menu-search-overlay')),
+    '#markup' => '<span class="admin-svg fake-link">Close</span><input placeholder="Search" id="admin-menu-search-input" type="search" size="60" maxlength="128"></input>',
+    '#attributes' => array('class' => array('admin-search-overlay')),
     );
   $content['search']['open'] = array(
     '#title' => t('Search'),
-    '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-menu-svg'))),
+    '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-svg'))),
     '#attributes' => array('class' => array('admin-menu-search')),
   );
 
@@ -81,10 +81,10 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
   $content['icon']['icon']['#title'] = t('Icon Menu');
 
   // Add classes for styling.
-  $content['icon']['icon']['#options']['attributes']['class'][] = 'admin-menu-svg';
-  $content['account']['account']['#options']['attributes']['class'][] = 'admin-menu-svg';
+  $content['icon']['icon']['#options']['attributes']['class'][] = 'admin-svg';
+  $content['account']['account']['#options']['attributes']['class'][] = 'admin-svg';
   $content['account']['logout']['#attributes']['class'][] = 'admin-menu-logout';
-  $content['account']['logout']['#options']['attributes']['class'][] = 'admin-menu-svg';
+  $content['account']['logout']['#options']['attributes']['class'][] = 'admin-svg';
 
   $content['#prefix'] = str_replace('<div id="admin-menu-wrapper">', '', $content['#prefix']);
   $content['#suffix'] = preg_replace('/<\/div>/', '', $content['#suffix'], 1);
