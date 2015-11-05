@@ -161,6 +161,41 @@ body.admin-menu:before {
 }
 
 /**
+ * Search
+ */
+#admin-menu-search .admin-search-overlay {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  display: none;
+}
+#admin-menu-search .admin-search-overlay.open {
+  display: block;
+}
+#admin-menu-search .admin-search-overlay input {
+  width: calc(100% - 50px);
+  height: 100%;
+
+  -webkit-appearance: none;
+  border: none;
+  background-color: #444;
+  background-color: #333;
+  padding: 10px;
+  color: #e8e8e8;
+}
+#admin-menu-search .admin-search-overlay .admin-svg {
+  position: absolute;
+  right: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMSIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMxIDMwIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTQuODEgMjkuNjJDNS4yOSAzMC4xIDYuMDggMzAuMTEgNi41NiAyOS42MkwxNS4wOCAyMS4xMUMxNS41NyAyMC42MyAxNi4zNiAyMC42MyAxNi44NCAyMS4xMUwyNS4zNiAyOS42MkMyNS44NCAzMC4xMSAyNi42NCAzMC4xIDI3LjEyIDI5LjYyTDMwLjYgMjYuMUMzMS4wOCAyNS42MiAzMS4wNyAyNC44MyAzMC42IDI0LjM0TDIyLjE3IDE1LjlDMjEuNjkgMTUuNDMgMjEuNjkgMTQuNjMgMjIuMTYgMTQuMTVMMzAuNiA1LjYzQzMxLjA3IDUuMTUgMzEuMDcgNC4zNSAzMC42IDMuODdMMjcuMTEgMC4zNUMyNi42My0wLjEzIDI1Ljg0LTAuMTMgMjUuMzYgMC4zNUwxNi44NCA4Ljg3QzE2LjM2IDkuMzUgMTUuNTYgOS4zNSAxNS4wOCA4Ljg3TDYuNTYgMC4zNUM2LjA4LTAuMTQgNS4yOS0wLjEzIDQuODEgMC4zNUwxLjMyIDMuODdDMC44NCA0LjM1IDAuODQgNS4xNSAxLjMyIDUuNjNMOS43NyAxNC4xNEMxMC4yNSAxNC42MyAxMC4yNSAxNS40MiA5Ljc2IDE1LjlMMS4zMiAyNC4zNEMwLjg0IDI0LjgyIDAuODQgMjUuNjIgMS4zMiAyNi4xTDQuODEgMjkuNjIgNC44MSAyOS42MloiIGZpbGw9IiNFOEU4RTgiLz48L2c+PC9zdmc+");
+  background-color: #0074bd;
+}
+#admin-menu-search .admin-search-overlay .admin-svg:hover {
+  background-color: #0084d6;
+}
+#admin-menu-search .admin-menu-search-results {
+  box-shadow: 2px 2px 2px rgba(50,50,50,.3);
+}
+
+/**
  * Mobile States
  */
 #admin-menu-users, #admin-menu-menu, .admin-menu-menu-result {
@@ -170,6 +205,14 @@ body.admin-menu:before {
 @media (min-width: 420px) {
   #admin-menu-users {
     display: block;
+  }
+}
+@media (min-width: 650px) {
+  #admin-menu-search .admin-search-overlay {
+    right: 0;
+    left: initial;
+    width: 250px;
+    background: #333;
   }
 }
 @media (max-width: 767px) {
@@ -269,76 +312,7 @@ body.admin-menu:before {
   #admin-menu-mobile, .admin-menu-mobile-result {
     display: none;
   }
-}
-
-/**
- * Search
- */
-#admin-menu-search .admin-search-overlay {
-  position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
-  display: none;
-}
-#admin-menu-search .admin-search-overlay.open {
-  display: block;
-}
-#admin-menu-search .admin-search-overlay input {
-  width: calc(100% - 50px);
-  height: 100%;
-
-  -webkit-appearance: none;
-  border: none;
-  background-color: #444;
-  background-color: #333;
-  padding: 10px;
-  color: #e8e8e8;
-}
-#admin-menu-search .admin-search-overlay .admin-svg {
-  position: absolute;
-  right: 0;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMSIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMxIDMwIiB2ZXJzaW9uPSIxLjEiPjx0aXRsZT5TaGFwZTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTQuODEgMjkuNjJDNS4yOSAzMC4xIDYuMDggMzAuMTEgNi41NiAyOS42MkwxNS4wOCAyMS4xMUMxNS41NyAyMC42MyAxNi4zNiAyMC42MyAxNi44NCAyMS4xMUwyNS4zNiAyOS42MkMyNS44NCAzMC4xMSAyNi42NCAzMC4xIDI3LjEyIDI5LjYyTDMwLjYgMjYuMUMzMS4wOCAyNS42MiAzMS4wNyAyNC44MyAzMC42IDI0LjM0TDIyLjE3IDE1LjlDMjEuNjkgMTUuNDMgMjEuNjkgMTQuNjMgMjIuMTYgMTQuMTVMMzAuNiA1LjYzQzMxLjA3IDUuMTUgMzEuMDcgNC4zNSAzMC42IDMuODdMMjcuMTEgMC4zNUMyNi42My0wLjEzIDI1Ljg0LTAuMTMgMjUuMzYgMC4zNUwxNi44NCA4Ljg3QzE2LjM2IDkuMzUgMTUuNTYgOS4zNSAxNS4wOCA4Ljg3TDYuNTYgMC4zNUM2LjA4LTAuMTQgNS4yOS0wLjEzIDQuODEgMC4zNUwxLjMyIDMuODdDMC44NCA0LjM1IDAuODQgNS4xNSAxLjMyIDUuNjNMOS43NyAxNC4xNEMxMC4yNSAxNC42MyAxMC4yNSAxNS40MiA5Ljc2IDE1LjlMMS4zMiAyNC4zNEMwLjg0IDI0LjgyIDAuODQgMjUuNjIgMS4zMiAyNi4xTDQuODEgMjkuNjIgNC44MSAyOS42MloiIGZpbGw9IiNFOEU4RTgiLz48L2c+PC9zdmc+");
-  background-color: #0074bd;
-}
-#admin-menu-search .admin-search-overlay .admin-svg:hover {
-  background-color: #0084d6;
-}
-#admin-menu-search .admin-menu-search-results {
-  box-shadow: 2px 2px 2px rgba(50,50,50,.3);
-}
-
-@media (min-width: 650px) and (max-width: 1199px), (min-width: 1400px) {
-  #admin-menu-search.dropdown {
-    position: relative;
-  }
-  #admin-menu-search .admin-search-overlay {
-    left: -200px;
-    display: block !important;
-  }
-  #admin-menu-search .admin-search-overlay input {
-    width: 100%;
-  }
-  #admin-menu-search .admin-search-overlay .admin-svg {
-    display: none;
-  }
-}
-@media (min-width: 1200px) and (max-width: 1399px) {
-  #admin-menu-search .admin-search-overlay {
-    right: 0;
-    left: initial;
-    width: 250px;
-  }
   #admin-menu-search .admin-search-overlay input {
     width: calc(100% - 40px);
   }
-}
-
-/*
- * Hide touch handles on devices which may hover with ease.
- * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
- */
-@media (hover) {
-  // #admin-menu .handle {display: none; }
-  // #admin-menu .expandable > .item {
-  //   margin-right: 0;
-  // }
 }
