@@ -285,6 +285,13 @@ body.admin-menu:before {
 #admin-menu-search .admin-search-overlay input {
   width: calc(100% - 50px);
   height: 100%;
+
+  -webkit-appearance: none;
+  border: none;
+  background-color: #444;
+  background-color: #333;
+  padding: 10px;
+  color: #e8e8e8;
 }
 #admin-menu-search .admin-search-overlay .admin-svg {
   position: absolute;
@@ -295,6 +302,10 @@ body.admin-menu:before {
 #admin-menu-search .admin-search-overlay .admin-svg:hover {
   background-color: #0084d6;
 }
+#admin-menu-search .admin-menu-search-results {
+  box-shadow: 2px 2px 2px rgba(50,50,50,.3);
+}
+
 @media (min-width: 650px) and (max-width: 1199px), (min-width: 1400px) {
   #admin-menu-search.dropdown {
     position: relative;

@@ -40,7 +40,9 @@ function admin_menu_responsive_page_alter(&$page) {
     $attached = &$page['page_bottom']['admin_menu']['#attached'];
 
     $attached['css'] = array($admin_menu_responsive . '/admin_menu.css' => array('every_page' => TRUE));
-    $attached['js'] = array($admin_menu_responsive . '/admin_menu.js' => array('every_page' => TRUE));
+
+    unset($attached['js'][drupal_get_path('module', 'admin_menu') . '/admin_menu.js']);
+    $attached['js'][$admin_menu_responsive . '/admin_menu.js'] = array('every_page' => TRUE);
   }
 }
 

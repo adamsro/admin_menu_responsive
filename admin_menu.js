@@ -183,7 +183,7 @@ Drupal.admin.behaviors.searchToggle = function(context, settings, $adminMenu) {
   $('#admin-menu-search span', $adminMenu).on('click', function() {
     if ($(window).width() < 768) {
       // Hide other top level menus and their decedents.
-      $adminMenu.children('ul').find('ul').css({ display: 'none' }).parent().removeClass('open');
+      $adminMenu.find('ul ul:not(#admin-menu-search ul)').css({ display: 'none' }).parent().removeClass('open');
     }
     $('.admin-search-overlay', $adminMenu).toggleClass('open');
     document.getElementById('admin-menu-search-input').focus();
