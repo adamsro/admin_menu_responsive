@@ -8,7 +8,7 @@ body.admin-menu:before {
   left: 0;
   top: 0;
   width: 100%;
-  font: 15px/1.5 system, -apple-system, ".SFNSDisplay-Regular", "Segoe UI", "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
+  font: 15px/1.5 ".SFNSDisplay-Regular", "Segoe UI", system, -apple-system, "Helvetica Neue", "Lucida Grande", Helvetica, sans-serif;
   background-color: #232323;
   box-shadow: 0px 2px 2px rgba(50,50,50,.3);
 }
@@ -210,7 +210,7 @@ body.admin-menu:before {
 @media (min-width: 650px) {
   #admin-menu-search .admin-search-overlay {
     right: 0;
-    left: initial;
+    left: auto;
     width: 250px;
     background: #333;
   }
