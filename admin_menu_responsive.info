@@ -2,3 +2,4 @@ name = Administration Menu Responsive
 description = "Make the administration menu mobile fiendly."
 package = Administration
 core = 7.x
+dependencies[] = admin_menu
