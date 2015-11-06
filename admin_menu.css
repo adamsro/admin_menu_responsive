@@ -60,7 +60,7 @@ body.admin-menu:before {
   list-style: none;
   margin: 0;
   padding: 0;
-  z-index: 999;
+  z-index: 9999;
 }
 #admin-menu .dropdown {
   position: static;
