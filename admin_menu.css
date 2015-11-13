@@ -243,6 +243,9 @@ body.admin-menu:before {
   }
 }
 @media (min-width: 768px) {
+  #admin-menu.admin-menu-fixed {
+    position: fixed;
+  }
  /* First Level & up */
   #admin-menu .expandable ul {
     width: 190px;
@@ -289,9 +292,6 @@ body.admin-menu:before {
   /* reduce the size of everything */
   body.admin-menu:before {
     height: 40px;
-  }
-  #admin-menu.admin-menu-fixed {
-    position: fixed;
   }
   #admin-menu {
     font-size: 13px;

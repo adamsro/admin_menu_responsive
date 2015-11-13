@@ -140,14 +140,10 @@ Drupal.admin.getCache = function (hash, onSuccess) {
  * @see toolbar.js
  */
 Drupal.admin.height = function() {
-  var $adminMenu = $('#admin-menu');
-  var height = $adminMenu.outerHeight();
-  // In IE, Shadow filter adds some extra height, so we need to remove it from
-  // the returned height.
-  if ($adminMenu.css('filter') && $adminMenu.css('filter').match(/DXImageTransform\.Microsoft\.Shadow/)) {
-    height -= $adminMenu.get(0).filters.item("DXImageTransform.Microsoft.Shadow").strength;
+  if ($(window).width() >= 768) {
+    return $('#admin-menu').outerHeight();
   }
-  return height;
+  return 0;
 };
 
 /**
