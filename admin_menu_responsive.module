@@ -68,16 +68,21 @@ function admin_menu_responsive_admin_menu_output_alter(&$content) {
     'main ' => $new_root,
   );
 
-  $content['search']['search'] = array(
-    '#type' => 'markup',
-    '#markup' => '<span class="admin-svg fake-link">Close</span><input placeholder="Search" id="admin-menu-search-input" type="search" size="60" maxlength="128"></input>',
-    '#attributes' => array('class' => array('admin-search-overlay')),
+  if (isset($content['search']['search'])) {
+    $content['search']['search'] = array(
+      '#type' => 'markup',
+      '#markup' => '<span class="admin-svg fake-link">Close</span><input placeholder="Search" id="admin-menu-search-input" type="search" size="60" maxlength="128"></input>',
+      '#attributes' => array('class' => array('admin-search-overlay')),
+      );
+    $content['search']['open'] = array(
+      '#title' => t('Search'),
+      '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-svg'))),
+      '#attributes' => array('class' => array('admin-menu-search')),
     );
-  $content['search']['open'] = array(
-    '#title' => t('Search'),
-    '#options' => array('html' => TRUE, 'attributes' => array('class' => array('admin-svg'))),
-    '#attributes' => array('class' => array('admin-menu-search')),
-  );
+  }
+
+  // Place search before users.
+  $content['search']['#weight'] = 140;
 
   // Don't use favicon for icon menu title.
   $content['icon']['icon']['#title'] = t('Icon Menu');
