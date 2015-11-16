@@ -140,7 +140,7 @@ Drupal.admin.getCache = function (hash, onSuccess) {
  * @see toolbar.js
  */
 Drupal.admin.height = function() {
-  if ($(window).width() >= 768) {
+  if ($(window).width() >= 1200) {
     return $('#admin-menu').outerHeight();
   }
   return 0;

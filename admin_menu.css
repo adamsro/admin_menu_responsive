@@ -1,7 +1,7 @@
 body.admin-menu:before {
-  content: "";
-  display: block;
   height: 50px;
+  display: block;
+  content: "";
 }
 #admin-menu {
   position: absolute;
@@ -60,7 +60,7 @@ body.admin-menu:before {
   list-style: none;
   margin: 0;
   padding: 0;
-  z-index: 9999;
+  z-index: 1000;
 }
 #admin-menu .dropdown {
   position: static;
@@ -243,9 +243,6 @@ body.admin-menu:before {
   }
 }
 @media (min-width: 768px) {
-  #admin-menu.admin-menu-fixed {
-    position: fixed;
-  }
  /* First Level & up */
   #admin-menu .expandable ul {
     width: 190px;
@@ -292,6 +289,10 @@ body.admin-menu:before {
   /* reduce the size of everything */
   body.admin-menu:before {
     height: 40px;
+  }
+  #admin-menu.admin-menu-fixed {
+    position: fixed;
+    z-index: 9999;
   }
   #admin-menu {
     font-size: 13px;
