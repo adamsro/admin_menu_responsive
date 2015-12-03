@@ -306,10 +306,10 @@ body.admin-menu:before {
     padding: 10.25px 10px; /* (40px - 13px*1.5em)/2 = 11.875px */
   }
   #admin-menu .expandable > a, #admin-menu .expandable > .fake-link {
-    margin-right: 40px; /* LTR */
+    margin-right: 35px; /* LTR */
   }
   #admin-menu .handle {
-    width: 40px;
+    width: 35px;
     height: 40px;
   }
   #admin-menu-menu, .admin-menu-menu-result {
