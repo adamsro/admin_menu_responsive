@@ -140,8 +140,13 @@ Drupal.admin.getCache = function (hash, onSuccess) {
  * @see toolbar.js
  */
 Drupal.admin.height = function() {
+  var height = $('#admin-menu').outerHeight();
   if ($(window).width() >= 1200) {
-    return $('#admin-menu').outerHeight();
+    return height;
+  }
+  var scroll = $(window).scrollTop();
+  if (scroll < height) {
+    return height - scroll;
   }
   return 0;
 };
